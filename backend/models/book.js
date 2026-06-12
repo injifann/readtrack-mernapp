@@ -28,7 +28,7 @@ const bookSchema=new mongoose.Schema({
         type:String,
         trim:true
     }
-})
+},{timestamps:true})
 
 const Book = mongoose.model("Book",bookSchema);
 
