@@ -27,7 +27,11 @@ const bookSchema=new mongoose.Schema({
     review:{
         type:String,
         trim:true
-    }
+    },
+coverImage:{
+    type:String,
+    default: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=500&auto=format&fit=crop&q=60" // Clean fallback book image
+}
 },{timestamps:true})
 
 const Book = mongoose.model("Book",bookSchema);

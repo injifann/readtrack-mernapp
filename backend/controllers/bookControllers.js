@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Book from "../models/book.js";
 
 export const getAllBook=async(req,res)=>{
+    console.log("reached me")
     try{
         const books = await Book.find().sort({createdAt:-1});
          res.status(200).json(books);
@@ -15,7 +16,7 @@ export const getAllBook=async(req,res)=>{
 }
 
 export const createBook=async(req,res)=>{
-    const {title,author,rating,review}=req.body;
+    const {title,author,rating,review,coverImage}=req.body;
            if(!title || !author)
         {
             return res.status(400).json({message:"please fill all fields"})
