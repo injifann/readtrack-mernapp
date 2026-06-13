@@ -2,22 +2,39 @@ import React from 'react'
 import { useState,useEffect } from 'react';
 import { Link } from 'react-router';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import MessageCard from '../components/MessageCard';
 
 export default function HomePage() {
-  const [book, setBooks] = useState([]);
+  const [books, setBooks] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [error,setError]=useState("");
+  
   useEffect(() => {
     const fetchBooks = async () => {
       try {
-        console.log("executing fetching from database")
-
-        const books = await axios.get("http://localhost:5000/api/books");
-        console.log(books)
-        setBooks(books.data);
+        const res = await axios.get("http://localhost:5000/api/books");
+        setBooks(res.data);
       }
       catch (error) {
-        console.log(error);
+        if(error.response)
+        {
+            const status=error.response.status;
+            if(status===500)
+            {
+                setError("SERVER_ERROR");
+            }
+            else{
+                toast.error(`status ${error.response.status}`);
+            }
+        }
+        else if(error.request)
+        {
+           setError("NETWORK_ERROR");
+        }
+        else {
+            toast.error("Somethig went wrong");
+        }
       }
       finally {
         setIsLoading(false);
@@ -40,7 +57,7 @@ export default function HomePage() {
             </div>
             <h1 className="text-xl font-bold text-gray-900 tracking-tight">Bookstore Dashboard</h1>
           </div>
-          {book.length > 0 && (
+          {books.length > 0 && (
             <Link to="/create" className="inline-flex items-center px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors duration-150">
               Add New Book
             </Link>
@@ -60,7 +77,7 @@ export default function HomePage() {
         )}
 
         {/* State 2: Empty State */}
-        {!isLoading && book.length === 0 && (
+        {/* {!isLoading && book.length === 0 && (
           <div className="max-w-md mx-auto text-center py-16 bg-white rounded-xl border border-gray-200 shadow-sm p-8 mt-10">
             <div className="text-gray-400 mb-4 flex justify-center">
               <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -73,12 +90,18 @@ export default function HomePage() {
               Create First Book
             </Link>
           </div>
-        )}
+        )} */}
+         
+         {!isLoading && books.length===0  && !error && (<MessageCard message1="No Books Availabe" message2 ="Your inventroy database is currently empty" btn={true}/>)}
+         {error==="NETWORK_ERROR" && (<MessageCard message1="No Response from the server" message2="Please try again later" btn={false}/>)}
+         {error==="SERVER_ERROR" && (<MessageCard message1="Internal Server Error" message2="Please try again later" btn={false}/>)}
+
+
 
         {/* State 3: Display Grid */}
-        {!isLoading && book.length > 0 && (
+        {!isLoading && books.length > 0 && !error && (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {book.map((bookItem) => (
+            {books.map((bookItem) => (
               <div key={bookItem._id} className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-shadow duration-200">
                 
                 {/* Book Cover Container */}

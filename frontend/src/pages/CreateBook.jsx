@@ -2,6 +2,7 @@ import axios from 'axios';
 import React from 'react'
 import { useState } from 'react'
 import toast from 'react-hot-toast';
+import { Link } from 'react-router';
 
 export default function CreateBook() {
     const [title,setTitle]=useState("");
@@ -10,6 +11,8 @@ export default function CreateBook() {
     const [review,setReview]=useState("");
     const [coverImage,setCoverImage]=useState("");
     const [isSaving,setIsSaving]=useState(false);
+
+
 
     const handleSubmission=async(e)=>{
         e.preventDefault();
@@ -186,8 +189,10 @@ export default function CreateBook() {
           )}
 
         </div>
+        
       </div>
-
+      <Link to={"/"}> Back to Books
+      </Link>
     </div>
   )
 }
