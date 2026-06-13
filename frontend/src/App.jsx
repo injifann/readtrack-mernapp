@@ -1,15 +1,17 @@
-import React from 'react'
-import HomePage from './pages/HomePage'
-import AddBook from './pages/AddBook'
-import { Routes,Route } from 'react-router'
+import axios from 'axios';
+import React from 'react';
+import HomePage from './pages/HomePage';
+import CreateBook from './pages/CreateBook';
+import {Route,Routes} from 'react-router'
 
-export default function App() {
-  return (
-    <div>
-      <Routes>
-        <Route path='/' element={<HomePage/>}></Route>
-        <Route path='/addbook' element={<AddBook/>}></Route>
-      </Routes>
-    </div>
-  )
+function App() {
+ 
+ return(
+<Routes>
+  <Route path='/' element={<HomePage/>}/>
+  <Route path='create' element={<CreateBook/>}/>
+</Routes>
+ )
 }
+
+export default App;

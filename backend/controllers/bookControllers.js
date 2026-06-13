@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import Book from "../models/book.js";
 
 export const getAllBook=async(req,res)=>{
-    console.log("reached me")
     try{
         const books = await Book.find().sort({createdAt:-1});
          res.status(200).json(books);
