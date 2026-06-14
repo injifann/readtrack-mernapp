@@ -3,7 +3,7 @@ import React from 'react'
 import { useEffect } from 'react';
 import { useState } from 'react'
 import toast from 'react-hot-toast';
-import { useNavigate, useParams } from 'react-router';
+import { useNavigate, useParams ,Link} from 'react-router';
 
 
 export default function UpdateBook() {
@@ -63,7 +63,7 @@ export default function UpdateBook() {
         else {
             try{
                     setIsUpdating(true);
-                    await axios.put(`http://localhost:5000/api/books/${id}`,{newtitle,newauthor,newrating:Number(newrating),newreview,newcoverImage})
+                    await axios.put(`http://localhost:5000/api/books/${id}`,{newtitle,newauthor,newrating:parseFloat(newrating),newreview,newcoverImage})
                     toast.success("book Updated successfully");
                     navigate("/");
                     
@@ -128,13 +128,21 @@ export default function UpdateBook() {
             <div>
                 <label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-1">Rating (1-5)</label>
                 <input 
-                    type="number" 
+                    type="text" 
                     id='rating' 
                     name='rating' 
+                    step="0.1"
                     value={newrating} 
-                    onChange={(e)=>setRating(e.target.value)} 
-                    min="1"
-                    max="5"
+                    onChange={(e)=>{
+                    const value=e.target.value;
+                    const regex=/^(?!0\d)\d?(\.\d?)?$/;
+                    if (value === '' || (regex.test(value) && value.length <= 3)) {
+                        if (value === '' || parseFloat(value) <= 5) {
+                          setRating(value);
+                        }}
+                    }
+                    } 
+     
                     className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-150"
                 />
             </div>
@@ -177,6 +185,23 @@ export default function UpdateBook() {
                         }`}
                 />
             </div>
+                  {/* STYLED: Back to Books Link */}
+                <div className="mt-6 text-center sm:mx-auto sm:w-full sm:max-w-md">
+                    <Link 
+                    to={"/"} 
+                    className="inline-flex items-center justify-center space-x-1.5 text-sm font-medium text-gray-500 hover:text-indigo-600 transition-colors duration-150 group"
+                    >
+                    <svg 
+                        className="w-4 h-4 transform group-hover:-translate-x-0.5 transition-transform duration-150" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    <span>Back to Books</span>
+                    </Link>
+                </div>
         </form>
     </div>
   )

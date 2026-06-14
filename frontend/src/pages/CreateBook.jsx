@@ -32,7 +32,7 @@ export default function CreateBook() {
             try
             {
               setIsSaving(true);
-              await axios.post("http://localhost:5000/api/books",{title,author,rating,review,coverImage});
+              await axios.post("http://localhost:5000/api/books",{title,author,rating:parseFloat(rating),review,coverImage});
               setTitle("");
               setAuthor("")
               setRating("")
@@ -116,9 +116,17 @@ export default function CreateBook() {
                 </label>
                 <input 
                   type="text" 
+                  step="0.1"
                   id='rating' 
                   value={rating} 
-                  onChange={(e)=>{setRating(e.target.value)}} 
+                  onChange={(e)=>{
+                    const value=e.target.value;
+                    const regex=/^(?!0\d)\d?(\.\d?)?$/;
+                    if (value === '' || (regex.test(value) && value.length <= 3)) {
+                        if (value === '' || parseFloat(value) <= 5) {
+                          setRating(value);
+                        }}
+                    }} 
                   placeholder='e.g. 4.5'
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm text-sm transition-colors"
                 />
