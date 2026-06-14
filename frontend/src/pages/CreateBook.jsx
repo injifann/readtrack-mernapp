@@ -5,12 +5,12 @@ import toast from 'react-hot-toast';
 import { Link } from 'react-router';
 
 export default function CreateBook() {
-    const [title,setTitle]=useState("");
-    const [author,setAuthor]=useState("");
-    const [rating,setRating]=useState("");
-    const [review,setReview]=useState("");
-    const [coverImage,setCoverImage]=useState("");
-    const [isSaving,setIsSaving]=useState(false);
+    const [title,setTitle] = useState("");
+    const [author,setAuthor] = useState("");
+    const [rating,setRating] = useState("");
+    const [review,setReview] = useState("");
+    const [coverImage,setCoverImage] = useState("");
+    const [isSaving,setIsSaving] = useState(false);
 
 
 
@@ -191,8 +191,25 @@ export default function CreateBook() {
         </div>
         
       </div>
-      <Link to={"/"}> Back to Books
-      </Link>
+      
+      {/* STYLED: Back to Books Link */}
+      <div className="mt-6 text-center sm:mx-auto sm:w-full sm:max-w-md">
+        <Link 
+          to={"/"} 
+          className="inline-flex items-center justify-center space-x-1.5 text-sm font-medium text-gray-500 hover:text-indigo-600 transition-colors duration-150 group"
+        >
+          <svg 
+            className="w-4 h-4 transform group-hover:-translate-x-0.5 transition-transform duration-150" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          <span>Back to Books</span>
+        </Link>
+      </div>
+
     </div>
   )
 }

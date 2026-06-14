@@ -14,6 +14,22 @@ export const getAllBook=async(req,res)=>{
 
 }
 
+export const getById=async(req,res)=>{
+
+    try{
+      const book= await Book.findById(req.params.id);
+      if(!book){
+        return res.status(404).json({message:"Book not found"});
+       }
+      res.status(200).json(book);
+
+    }
+    catch(error)
+    {
+        res.status(500).json({message:"Internal server Error"});
+    }
+
+}
 export const createBook=async(req,res)=>{
     const {title,author,rating,review,coverImage}=req.body;
            if(!title || !author)
@@ -37,19 +53,22 @@ export const createBook=async(req,res)=>{
 
 export const updateBook=async(req,res)=>{
 
+    const{newtitle,newauthor,newrating,newreview,newcoverImage}=req.body
+
          
     try{
-       const updatedBook= await Book.findByIdAndUpdate(req.params.id,req.body,{new:true,runValidators:true});
+       const updatedBook= await Book.findByIdAndUpdate(req.params.id,{title:newtitle,author:newauthor,rating:newrating,review:newreview,coveImage:newcoverImage},{returnDocument:'after',runValidators:true});
        if(!updatedBook)
        {
-        return res.status(400).json({message:"Book not found"});
+        return res.status(404).json({message:"Book not found"});
        }
+
+       res.status(200).json(updatedBook);
         
 
     }
     catch(error)
     {
-        console.log(error);
         res.status(500).json({message:"Internal server Error"});
     }
 
