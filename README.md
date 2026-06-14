@@ -17,8 +17,6 @@ The application features full CRUD capabilities, strict frontend input filtering
 
 ## 📸 Screenshots
 
-> **Note:** To display your screenshots here, take screenshots of your local app, create a folder named `screenshots` in your project's root folder, save the images there as `dashboard.png`, `addform.png`, and `updateform.png`, and they will automatically show up below!
-
 ### Main Dashboard View
 ![Read Track Dashboard](./screenshots/dashboard.png)
 
